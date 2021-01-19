@@ -15,7 +15,9 @@ let reset = false;
 let Bool = false;
 let start_game = false;
 function setup(){
-  createCanvas(900,600);
+
+  var canvas = createCanvas(600,400);
+  canvas.parent('sketch-holder');
   set_game()
 }
 
