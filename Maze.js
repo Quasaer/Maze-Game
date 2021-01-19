@@ -9,14 +9,18 @@ let current,player,end;
 //visited cells are stored in a stack
 let stack = [];
 //the win history of the player is stored into a queue
-let win_history = []
+let win_history = [];
 let move_count = 0;
 let reset = false;
 let Bool = false;
 let start_game = false;
+const ALGORITHM_DROPDOWN_DEPTH_FIRST = "Depth First";
+const ALGORITHM_DROPDOWN_KRUSKAL = "Kruskal";
+
 function setup(){
   createCanvas(900,600);
-  set_game()
+  setupUI();
+  //set_game();
 }
 
 
@@ -105,13 +109,11 @@ function set_game(){
   for(let j = 0 ; j < rows; j++){
     for (let i = 0 ; i < cols; i++){
       let cell = new Cell(i,j);
-
       //putting the cell object into the array using the push fucntion
       grid.push(cell);
-
     }
-
   }
+
   //the current cell starts at first grid cell object
   current = grid[0];
   start_point = grid[0];
@@ -364,6 +366,23 @@ function keyPressed(){
     }
 
   }
+}
+
+//Function to draw the UI
+function setupUI(){
+  let algorithmDropDownLabelStr = 'Maze Algorithm Select: ';
+  let algorithmDropDownLabel = createElement('label',algorithmDropDownLabelStr);
+  algorithmDropDownLabel.position(width+50,50);
+  let algorithmDropDown = createSelect();
+  algorithmDropDown.position(algorithmDropDownLabel.x+160, 50);
+  algorithmDropDown.option(ALGORITHM_DROPDOWN_DEPTH_FIRST);
+  algorithmDropDown.option(ALGORITHM_DROPDOWN_KRUSKAL);
+  algorithmDropDown.selected(ALGORITHM_DROPDOWN_DEPTH_FIRST);
+  //display start button
+  let startbutton = createButton('Start game')
+  startbutton.position(algorithmDropDown.x+algorithmDropDown.width*4, 50)
+  //go back into set game function
+  startbutton.mousePressed(set_game(algorithmDropDown.value));
 }
 
 // set move log
